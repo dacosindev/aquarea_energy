@@ -1,34 +1,47 @@
-"""Config flow for the Aquarea Energy integration."""
-
-from homeassistant import config_entries
-
-from .const import DOMAIN  # Asegúrate de tener DOMAIN = "tu_dominio"
-
-
-
 import voluptuous as vol
+from homeassistant import config_entries
+from homeassistant.core import callback
+from homeassistant.data_entry_flow import FlowResult
+
+from .const import DOMAIN  # Asegúrate de tener 'DOMAIN = "aquarea_energy"' en const.py
+
+DATA_SCHEMA = vol.Schema(
+    {
+        vol.Required("username"): str,
+        vol.Required("password"): str,
+    }
+)
+
 
 class AquareaEnergyConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
-    """Config flow para la integración Aquarea Energy."""
+    """Handle a config flow for Aquarea Energy."""
 
     VERSION = 1
 
-    async def async_step_user(self, user_input=None):
+    async def async_step_user(self, user_input=None) -> FlowResult:
         errors = {}
-        if self._async_current_entries():
-            return self.async_abort(reason="single_instance_allowed")
 
         if user_input is not None:
-            # Aquí podrías validar el usuario/contraseña si lo deseas
-            return self.async_create_entry(title="Aquarea Energy", data=user_input)
-
-        data_schema = vol.Schema({
-            vol.Required("username"): str,
-            vol.Required("password"): str,
-        })
+            # Aquí podrías validar credenciales si quieres
+            return self.async_create_entry(
+                title=user_input["username"], data=user_input
+            )
 
         return self.async_show_form(
-            step_id="user",
-            data_schema=data_schema,
-            errors=errors,
+            step_id="user", data_schema=DATA_SCHEMA, errors=errors
         )
+
+    @staticmethod
+    @callback
+    def async_get_options_flow(config_entry):
+        return AquareaEnergyOptionsFlowHandler(config_entry)
+
+
+class AquareaEnergyOptionsFlowHandler(config_entries.OptionsFlow):
+    """Handle options flow for Aquarea Energy."""
+
+    def __init__(self, config_entry):
+        self.config_entry = config_entry
+
+    async def async_step_init(self, user_input=None):
+        return self.async_show_form(step_id="init", data_schema=vol.Schema({}))
