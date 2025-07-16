@@ -21,8 +21,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     session = async_get_clientsession(hass)
     client = Client(
-        username="dvdelarias@gmail.com",
-        password="@RnB<PY%/a7",
+        username="****",
+        password="****",
         session=session,
         device_direct=True,
         refresh_login=True,
