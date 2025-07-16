@@ -3,6 +3,7 @@
   "name": "Energy Aquarea",
   "version": "0.1.0",
   "requirements": ["beautifulsoup4"],
+  "dependencies": [],
   "iot_class": "cloud_polling",
   "codeowners": ["@dacosindev"],
   "platforms": ["sensor"],
