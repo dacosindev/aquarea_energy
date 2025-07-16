@@ -20,8 +20,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Aquarea Energy from a config entry."""
 
     session = async_get_clientsession(hass)
+
     username = entry.data["username"]
     password = entry.data["password"]
+
     client = Client(
         username=username,
         password=password,
