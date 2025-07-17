@@ -55,7 +55,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         _LOGGER,
         name="aquarea_energy",
         update_method=async_fetch_energy_data,
-        update_interval=timedelta(hours=1),
+        update_interval=timedelta(minutes=1),
     )
 
     await coordinator.async_config_entry_first_refresh()
